@@ -1,0 +1,103 @@
+---
+title: "Lab 1: Intro to R"
+author: "Sanyapoom Sirijirakarn (Safe)"
+date: "`r Sys.Date()`"
+output: openintro::lab_report
+---
+
+```{r load-packages, message=FALSE}
+library(tidyverse)
+library(openintro)
+```
+
+### Exercise 1
+
+```{r view-girls-counts}
+arbuthnot$girls
+```
+
+
+### Exercise 2
+
+The number of girls baptized over the year decline in the year 1640 to 1660. There is a gradual increase in the number of baptized girls after the year 1660.
+
+```{r trend-girls}
+ggplot(data = arbuthnot, aes(x = year, y = girls)) + 
+     geom_line()
+```
+
+
+
+### Exercise 3
+
+The proportion of boys baptized over time is mostly around 51% - 53% with a few outliers that goes above or below the percentage. The proportion of boys are more than the proportion of girls baptized over time since none of the graph line goes below 50%.
+
+```{r plot-prop-boys-arbuthnot}
+arbuthnot <- arbuthnot %>%
+        mutate(total = boys + girls)
+arbuthnot <- arbuthnot %>%
+  mutate(boy_prop = boys / total)
+arbuthnot %>% 
+        ggplot(aes(year, boy_prop)) +
+        geom_line()
+```
+
+
+### Exercise 4
+
+Year: 1940 - 2002
+
+Dimension: 63 x 3
+
+Variable Names: year, boys, girls
+
+```{r dim-present}
+glimpse(present)
+head(present)
+tail(present)
+dim(present)
+names(present)
+```
+
+
+
+### Exercise 5
+
+Arbuthhnot has a bigger dataset compare to present, therefore arbuthnot has higher magnitude.
+
+```{r count-compare}
+count(present)
+count(arbuthnot)
+```
+
+
+
+### Exercise 6
+
+Arbuthnot's obeservation about boys being in greater proportion than girls does hold up because the proportion of boys to compare to girl over time exceed the 50% point.
+
+```{r plot-prop-boys-present}
+present <- present %>%
+     mutate(total = boys +girls)
+
+present  <- present  %>%
+     mutate(boy_prop = boys / total)
+present  %>% 
+     ggplot(aes(year, boy_prop)) +
+     geom_line()
+```
+
+
+
+### Exercise 7
+
+Year 1961 has the most total number of births in the US.
+
+```{r find-max-total}
+present <- present %>%
+        mutate(total = boys + girls)
+present <- present %>%
+        arrange(desc(total))
+head(present)
+```
+
