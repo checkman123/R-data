@@ -1,0 +1,160 @@
+---
+title: "February 25 In-Class: Election Maps"
+author: "Sanyapoom Sirijirakarn"
+date: "`r Sys.Date()`"
+output: openintro::lab_report
+---
+
+```{r load-packages, message=FALSE}
+library(tidyverse)
+library(openintro)
+library(albersusa)
+library(plotly)
+burden <- read_csv("RentCostBurden.csv")
+elections <- read_csv("elections.csv")
+election_county <- read_csv("election_county.csv")
+```
+
+### Exercise 1
+
+
+```{r }
+us_states = usa_sf("laea")
+us_county = counties_sf("laea")
+
+
+# Create theme to remove background elements
+my_map_theme <- function(){
+  theme(panel.background=element_blank(),
+        axis.text=element_blank(),
+        axis.ticks=element_blank(),
+        axis.title=element_blank())
+}
+
+burden_county <- burden %>%
+  filter(Type=="County") %>%
+  select(Location, Overall_Burden_Rate_18, Median_Rent_18) %>%
+  separate(Location, c("county", "state"), sep=", ") 
+
+# Join map data and rent median data
+us_county_burden <- left_join(counties_sf("laea"), burden_county, c("name"="county"))
+
+ggplot() + 
+  geom_sf(data = us_county_burden, aes(fill=Overall_Burden_Rate_18), size = 0.5) +
+  geom_sf(data = usa_sf(), alpha=0, size=0.5, color="black") +
+  scale_fill_continuous(low="yellow", high="red", labels = scales::comma) +
+  guides(fill = guide_colorbar("Overall_Burden_Rate_18", title.position="top")) +
+  my_map_theme()
+
+
+```
+
+### Exercise 2
+
+``` {r}
+ elections <- elections %>%
+  select(state, d_points_2012, d_points) %>%
+  rename('2012' = d_points_2012, '2016' = d_points) %>%
+  pivot_longer(c('2012', '2016'), names_to = 'Year', values_to="MofV")
+
+my_cutpoints <- c(-100,-15,-5,-1,0,1,5,15,100)
+my_labels <- c("R+15 or more", "R+5 to R+15", "R+1 to R+5", "R+0 to R+1",
+"D+0 to D+1", "D+1 to D+5", "D+5 to D+15", "D+15 or more")
+
+election_state <- us_states %>%
+left_join(elections, c("name"="state")) %>%
+mutate(margin = cut(MofV, breaks = my_cutpoints, labels = my_labels))
+
+
+
+my_colors <- c("#b2182b","#d6604d","#f4a582","#fddbc7",
+"#d1e5f0","#92c5de","#4393c3","#2166ac")
+
+```
+
+``` {r}
+ggplot(election_state) +
+  facet_wrap(~Year, nrow = 2) +
+  geom_sf(aes(fill=margin)) +
+  my_map_theme() +
+  scale_fill_manual("", values = my_colors) +
+  labs(title = "Presidential Election Results by State",
+  subtitle = "Percentage Margin of Victory by Clinton (D) or Trump (R)") +
+  theme(plot.title = element_text(hjust = 0.5, size=15)) +
+  theme(plot.subtitle = element_text(hjust = 0.5))
+```
+
+### Exercise 3
+
+When we try to join on us_county by fips, we get an error because the fips column in the election_county table is of type factor and the fips column in the us_county table is of type double. R can’t check for equality between these values because they are of incompatible.
+
+``` {r}
+margin_election <- election_county %>%
+  mutate(d_points_2016 =  (per_dem_2016 - per_gop_2016) *100) %>%
+  mutate(d_points_2016 = cut(d_points_2016, breaks = my_cutpoints, labels = my_labels))
+
+us_county <- mutate(us_county, fips2 = as.numeric(as.character(fips)))
+
+us_election_county <- left_join(us_county, margin_election, c("fips2" = "fips"))
+```
+
+``` {r}
+ggplot(us_election_county) +
+  geom_sf(aes(fill=d_points_2016)) +
+  geom_sf(data = usa_sf(), alpha=0, size=0.5, color="black") +
+  my_map_theme()+
+  scale_fill_manual("", values = my_colors)
+```
+
+``` {r}
+us_county_WA <- us_county %>%
+  filter(state == "Washington")
+
+us_election_county_WA <- left_join(us_county_WA, margin_election, c("fips2" = "fips"))
+
+ggplot(us_election_county_WA) +
+  geom_sf(aes(fill=d_points_2016)) +
+  my_map_theme()+
+  scale_fill_manual("", values = my_colors)
+```
+``` {r}
+us_election_county_West <- inner_join(us_county, margin_election, c("fips2" = "fips"))
+
+us_election_county_West <- us_election_county_West %>%
+  filter(census_region == "West")
+
+region <- election_county %>%
+  filter(census_region == "West")
+
+us_west_border <- inner_join(us_states, region, c("iso_3166_2" = "state"))
+
+
+ggplot(us_election_county_West) +
+  geom_sf(aes(fill=d_points_2016)) +
+  geom_sf(data = us_west_border, alpha=0, size=0.5, color="black") +
+  my_map_theme()+
+  scale_fill_manual("", values = my_colors)
+```
+
+### Exercise 0
+
+
+``` {r}
+rent_state <- burden %>%
+  filter(Type=="State") %>%
+  select(Location, Median_Rent_18)
+
+us_states_rent <- left_join(us_states, rent_state, c("name" = "Location"))
+
+p <- us_states_rent %>%
+  mutate(text = paste("<b>", name ,"</b>\n2018 Median Rent rate: ", Median_Rent_18, sep="")) %>%
+  ggplot() +
+    geom_sf(aes(fill=Median_Rent_18+runif(nrow(us_states_rent)), text=text)) +
+    scale_fill_continuous(low="yellow", high="red", labels = scales::comma) +
+    guides(fill = guide_colorbar("Median Rent ($)", title.position="top")) +
+    my_map_theme() 
+
+ggplotly(p, tooltip = "text") %>%
+  style(hoveron = "fills") 
+```
+
