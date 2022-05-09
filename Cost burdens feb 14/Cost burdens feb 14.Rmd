@@ -1,0 +1,152 @@
+---
+title: "Lab Name"
+author: "Author Name"
+date: "`r Sys.Date()`"
+output: openintro::lab_report
+---
+
+```{r load-packages, message=FALSE}
+library(tidyverse)
+library(openintro)
+library(readxl)
+
+burden_original <- read_excel("Apartment List Data -- Cost Burden 2019.xlsx", skip = 1)
+burden <- read_excel("Apartment List Data -- Cost Burden 2019.xlsx", skip = 1)
+burden <- select(burden, -12)
+
+```
+
+### Original
+
+Insert any text here.
+
+```{r}
+namelist <- c("N_Rent_Households",
+"Overall_Burden_Rate",
+"Moderate_Burden_Rate",
+"Severe_Burden_Rate",
+"N_Burden_Overall",
+"N_Burden_Moderate",
+"N_Burden_Severe",
+"Median_Rent",
+"Median_Renter_Income")
+
+paste(namelist, "18", sep="_")
+
+names(burden) <- c("Location",
+"Type",
+paste(namelist, "18", sep="_"),
+paste(namelist, "17", sep="_"),
+paste(namelist, "08", sep="_"),
+paste(namelist, "change_17_18", sep="_"),
+paste(namelist, "change_08_18", sep="_"))
+
+myplot <- burden %>%
+  filter(Type == "Metro") %>%
+  ggplot(aes(x=Overall_Burden_Rate_18, y=N_Burden_Overall_18)) +
+  geom_point(aes(color=Overall_Burden_Rate_18)) +
+  scale_y_log10() +
+  labs(title="THE U.S. CITIES WITH\nTHE BIGGEST COST BURDENS",
+  subtitle=
+  "Apartment List analyzed which cities have the worst income-to-rent ratios.",
+  caption = "Source: Apartment List and Yahoo Finance") +
+  xlab("OVERALL COST BURDEN RATE") +
+  ylab("# OF COST BURDENED HOUSEHOLDS")
+
+myplot <- myplot +
+  scale_color_gradient(low="yellow", high="red") +
+  guides(color=FALSE) +
+  theme(plot.background = element_rect(fill = "#1F0E42")) +
+  theme(panel.background = element_rect(fill = "#1F0E42")) +
+  theme(title = element_text(color = "white")) +
+  theme(axis.text = element_text(color = "white")) +
+  theme(plot.title = element_text(hjust=0.5)) +
+  theme(plot.subtitle = element_text(hjust=0.5))
+
+named_cities <- burden %>%
+  filter(Location %in% c("New York, NY",
+  "Los Angeles, CA",
+  "San Francisco, CA",
+  "San Diego, CA",
+  "Miami, FL",
+  "Riverside, CA",
+  "New Orleans, LA",
+  "Vineland, NJ",
+  "Ocean City, NJ"))
+
+named_cities <- filter(named_cities, Type == "Metro")
+
+myplot <- myplot +
+  geom_text(data=named_cities,
+  aes(x=Overall_Burden_Rate_18, y=N_Burden_Overall_18,
+  label=paste(" ", Location, " ")), size = 3,
+  color="white", hjust="outward", vjust=c(.5, .5, .5, .5, .5, 1, 0, .5, .5)) +
+  scale_x_continuous(labels = scales::percent, limits = c(0.2, 0.8))
+
+myplot
+
+myplot <- myplot +
+scale_y_log10(breaks = c(1000, 2000, 5000, 10000, 20000, 50000,
+100000, 200000, 500000, 1000000),
+labels = c("1000", "2K", "5K", "10K", "20K", "50K",
+"100K", "200K", "500K", "1M"),
+minor_breaks=NULL)
+
+myplot
+
+```
+
+### Revised Graph
+
+```{r}
+myplot <- burden %>%
+  filter(Type == "Metro", Overall_Burden_Rate_18 > 0) %>%
+  ggplot(aes(x=Overall_Burden_Rate_18, y=Median_Renter_Income_18)) +
+  geom_point(aes(size = N_Rent_Households_18, color = Median_Rent_18)) +
+  scale_y_log10() +
+  labs(title="THE U.S. CITIES WITH\nTHE BIGGEST COST BURDENS",
+  subtitle=
+  "Apartment List analyzed which cities have the worst income-to-rent ratios.",
+  caption = "Source: Apartment List and Yahoo Finance", color = "Median Rent") +
+  xlab("OVERALL COST BURDEN RATE") +
+  ylab("MEDIAN RENTER INCOME") + coord_flip()
+
+myplot <- myplot +
+  scale_color_gradient(low="yellow", high="red") +
+  scale_size_continuous(label=scales::comma) +
+  guides( size=guide_legend(title = "Total Renter Household")) +
+  theme(plot.background = element_rect(fill = "#1F0E42")) +
+  theme(panel.background = element_rect(fill = "#1F0E42")) +
+  theme(title = element_text(color = "white")) +
+  theme(axis.text = element_text(color = "white")) +
+  theme(legend.background = element_rect(fill = "#1F0E42")) +
+  theme(legend.text = element_text(color = "white")) +
+  theme(plot.title = element_text(hjust=0.5)) +
+  theme(plot.subtitle = element_text(hjust=0.5))
+
+named_cities <- burden %>%
+  filter(Location %in% c("New York, NY",
+  "Los Angeles, CA",
+  "San Francisco, CA",
+  "San Diego, CA",
+  "Miami, FL",
+  "Riverside, CA",
+  "New Orleans, LA",
+  "San Jose, CA",
+  "Ocean City, NJ"))
+
+named_cities <- filter(named_cities, Type == "Metro")
+
+myplot <- myplot +
+  geom_text(data=named_cities,
+  aes(x=Overall_Burden_Rate_18 , y=Median_Renter_Income_18,
+  label=paste(" ", Location, " ")), size = 2,
+  color="white", hjust="outward", vjust=c(.5, .5, .5, .5, .5, 1, 0, .5, .5)) +
+  scale_x_continuous(labels = scales::percent, limits = c(0.2, 0.8))
+
+
+myplot
+
+```
+
+
