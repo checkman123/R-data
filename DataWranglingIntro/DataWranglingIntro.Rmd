@@ -1,0 +1,77 @@
+---
+title: "Data Wrangling Exercises"
+author: "Sanyapoom Sirijirakarn"
+date: "`r Sys.Date()`"
+output: openintro::lab_report
+---
+
+```{r load-packages, message=FALSE}
+library(tidyverse)
+library(openintro)
+library(mdsr)
+library(babynames)
+BabyNames <- make_babynames_dist()
+```
+
+### Exercise 1
+
+
+```{r}
+filterName <- function(x){
+  varName <- deparse(substitute(x))
+  
+  BabyNames %>%
+  filter(name == varName) %>%
+  group_by(year) %>%
+  summarize(total_n = sum(n)) %>%
+  arrange(desc(total_n)) %>%
+  head(5)
+}
+
+filterName(Sam)
+
+```
+
+### Exercise 2
+
+A)
+  1) Get the data Babynames
+  2) Filter to baby names from 1990, can also filter male and female, can also use group by to leave out information we do not need
+  3) Arrange it from the most name used to the lowest
+  4) Show the first 10 names which would be most commonly used baby names from 1990
+  
+B) between() function returns a boolean value True or False. It checks whether the given value is in between the given range. I do not think you can use it for the previous exercise as between can only be use for numeric value. It is unable to evaluate strings.
+
+```{r}
+#For both male and female with only information we need
+BabyNames %>%
+  filter(between(year, 1990, 1999)) %>%
+  group_by(name, sex) %>%
+  summarize(total_n = sum(n)) %>%
+  arrange(desc(total_n)) %>%
+  head(10)
+
+#For male baby names
+BabyNames %>%
+  filter(between(year, 1990, 1999), sex == "M") %>%
+  group_by(name, sex) %>%
+  summarize(total_n = sum(n)) %>%
+  arrange(desc(total_n)) %>%
+  head(10)
+
+#For female baby names
+BabyNames %>%
+  filter(between(year, 1990, 1999), sex == "F") %>%
+  group_by(name, sex) %>%
+  summarize(total_n = sum(n)) %>%
+  arrange(desc(total_n)) %>%
+  head(10)
+
+
+#For both male and female, original
+BabyNames %>%
+  filter(between(year, 1990, 1999)) %>%
+  arrange(desc(n)) %>%
+  head(10)
+
+```

@@ -1,0 +1,77 @@
+---
+title: "Data Wrangling, Part 2"
+author: "Sanyapoom Sirijirakarn"
+date: "`r Sys.Date()`"
+output: openintro::lab_report
+---
+
+```{r load-packages, message=FALSE}
+library(tidyverse)
+library(openintro)
+library(Lahman)
+data(Batting)
+data(People)
+library(nycflights13)
+data(flights)
+```
+
+### Exercise 1
+
+Insert any text here.
+
+```{r}
+Batting %>%
+    group_by(playerID) %>%
+    summarize(total_HR = sum(HR, na.rm = TRUE), total_SB = sum(SB, na.rm = TRUE)) %>%
+    filter(total_HR >= 300, total_SB >= 300) %>%
+    left_join(People, by=c("playerID" = "playerID")) %>%
+    arrange((debut)) %>%
+    select(playerID, total_HR, total_SB, debut, finalGame )
+
+```
+
+### Exercise 2
+
+Insert any text here.
+
+```{r}
+temp_airports <- airports
+
+flights %>%
+  group_by(dest) %>%
+  summarize(N = n(), AverageDelay = mean(arr_delay, na.rm=TRUE)) %>%
+  left_join(temp_airports, by=c("dest" = "faa")) %>%
+  arrange(desc(AverageDelay))
+```
+
+### Exercise 3
+
+
+```{r}
+flights%>%
+  group_by(dest)%>%
+  summarize(N=n(), AverageDelay=mean(arr_delay, na.rm=TRUE))%>%
+  filter(N>=(365*2)) %>%
+   left_join(airports, by=c("dest" = "faa")) %>%
+  select(dest, N, AverageDelay, name) %>% 
+  arrange(desc(AverageDelay))%>%
+  head(10) 
+
+```
+
+### Exercise 4 
+na.rm = true leaves out all missing data, if we take it out then it includes the average delays with no information and it would not be able to compute the average. 
+
+### Exercise 5 
+various reasons, departure and arrival times missing can be due canceled flights, arrival times missing can be because the plane landed somewhere else due to other factors, arrival delay could be missing because it was not calculated. 
+```{r}
+nadelay <- nrow(filter(flights, is.na(arr_delay))) 
+nadelay
+
+nadelay/nrow(flights)
+
+departdelay <- nrow(filter(flights, is.na(dep_delay)))  
+
+colSums(is.na(filter(flights, is.na(arr_delay))))
+```
+

@@ -1,0 +1,97 @@
+---
+title: "Data Visualization and Writing Functions Homework"
+author: "Sanyapoom Sirijirakarn"
+date: "`r Sys.Date()`"
+output: openintro::lab_report
+---
+
+```{r load-packages, message=FALSE}
+library(tidyverse)
+library(openintro)
+library(mdsr)
+library(readr)
+USStates <- read_csv("D:/CODINGS/RStudio/Data Visualization and Writing Functions/USStates.csv")
+```
+
+### Exercise 1
+
+The graph below shown that as the higher the win percentage for a team, the higher the payroll since there will be more fans attending the event.
+
+```{r }
+data(MLB_teams)
+ggplot(data = MLB_teams, mapping = aes(x = WPct, y= payroll, color = attendance)) +
+  geom_point() + scale_y_continuous(labels = scales::comma) + 
+  scale_colour_continuous(labels = scales::comma) + 
+  geom_smooth(method = lm, se = FALSE) +
+  labs(x = "Winning Percentage", y = "Payroll", title = "The Relationship Between Winning Percentage of Each Team and Its Payroll", color = "Fans in Attendance") 
+```
+
+### Exercise 2
+
+From the graph below, we can see that New York Yankee have Highest win percentage in AL League while Philadelphia Phillies have the highest win percentage in NL League. Both of them also have a much higher payroll compared to other teams even though they both are getting lower win percentage over the years. Many of the teams exclusively play in one league only while some dabble in both league in different year.
+
+```{r fig.align='center', fig.width= 8}
+MLB_teams$yearID <- factor(MLB_teams$yearID)
+
+ggplot(data = MLB_teams, group = name) +
+  geom_point(mapping = aes(x = WPct, y= name, color=yearID, size = payroll), alpha = 0.3) +
+  scale_size_continuous(labels = scales::comma) +
+  facet_wrap(~ lgID) +
+  labs(x = "Winning Percentage", y = "Team Names", title = "The Winning Percentage of Every Team Each Year From 2008 to 2014", color = "Year", size = "Payroll")  
+
+```
+
+### Exercise 3
+
+Insert any text here.
+
+```{r }
+
+give_me_the_name <- function(var) deparse(substitute(var))
+
+give_me_the_name(MLB_teams$payroll)
+
+mystats <- function(x){
+  structure(list(var_name=deparse(substitute(x)), mean = mean(x), sd = sd(x), min =  min(x), max = max(x), 
+                 median = median(x),q1 = quantile(x,0.25), q3 = quantile(x, 0.75)), class = "mystats")
+}
+
+print.mystats <- function(x, ...){
+  cat("Summary Statistics for ", x$var_name,":\n",
+      "\tmean = ", x$mean, ", sd = ", x$sd, "\n",
+      "Five number summary:\n",
+      "\tmin = ", x$min, ", Q1 = ", x$q1, ", median = ", x$median, ", Q3 = ", x$q3, ", max = ", x$max, sep="" )
+}
+
+mystats(MLB_teams$payroll)
+
+```
+
+### Exercise 4
+
+I personally prefer the histogram graph since it is easier for me to see and compare. However, I think boxplot is clearly better in delivering more information compared to the histogram.
+
+```{r }
+ggplot(data = USStates,mapping = aes(x=College)) +
+  geom_histogram(color="black", fill="grey") +
+  labs(x = "Percent of Adults with College Degrees", y = "Number of States", title = "College Education Rates in the U.S.")
+
+ggplot(data = USStates,mapping = aes(x=College)) +
+  geom_histogram(color="black", fill="grey") +
+  labs(x = "Percent of Adults with College Degrees", y = "Number of States", title = "College Education Rates in the U.S. by Region")  +
+  facet_wrap(~ Region)
+
+ggplot(data = USStates,mapping = aes(x=College, y= Region)) +
+  geom_boxplot() +
+  scale_y_discrete(name = "Region", limits = c("S", "W", "MW", "NE"))
+```
+
+### Exercise 5
+
+The graph uses boxplot and dotplot as its geom. The aesthetics it uses are xy coordinate and color. The college education rates in the U.S. will be higher as the graph goes to the right in x axis. The y axis stands for each Region in the U.S. The color represent the elected which is Clinton and Trump in this case and their party color. The graph reveals that the state whose have a higher college education rate will usually vote for Clinton while the states whose have a lower college education rate will usually vote for Trump. We can also see how the south and midwest region mostly support trump. There are few states who vote outside the norm within their own region. I am not able to identify which state as the graph do not show the name of the states.
+
+```{r }
+
+```
+
+

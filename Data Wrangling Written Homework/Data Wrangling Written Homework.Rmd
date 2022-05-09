@@ -1,0 +1,144 @@
+---
+title: "Data Wrangling Written Homework"
+author: "Sanyapoom Sirijirakarn"
+date: "`r Sys.Date()`"
+output: openintro::lab_report
+---
+
+```{r load-packages, message=FALSE}
+library(tidyverse)
+library(openintro)
+library(Lahman)
+library(nycflights13)
+library(mdsr)
+
+data(Teams)
+data(flights)
+data(Violations)
+data(Batting)
+data(Pitching)
+data(Master)
+```
+
+### Exercise 6
+a) mean()
+b) mutate() 
+c) arrange()
+d) filter()
+e) select()
+
+### Exercise 4
+
+
+```{r }
+#a batting average (BA). Batting average is the ratio of hits (H) to at-bats (AB).
+Teams <-
+  Teams %>%
+  mutate(BA = H/AB)
+
+#b slugging percentage (SLG) Slugging percentage is total bases divided by at-bats. To compute total bases, you get 1 for a single, 2 for a double, 3 for a triple, and 4 for a home run.
+Teams <-
+  Teams %>%
+  mutate(SLG = ((H-X2B-X3B-HR)+ 2*X2B + 3*X3B + 4*HR)/AB)
+```
+
+```{r }
+#c Plot out the SLG versus yearID, showing the individual teams and a smooth curve.
+ggplot(Teams, mapping = aes(x = yearID, y = SLG)) +
+  geom_point() +
+  geom_smooth(method = lm, se = FALSE) +
+  labs(x = "Year", y = "Slugging %")
+
+#d Same as (c), but plot BA versus year.
+ggplot(Teams, mapping = aes(x = yearID, y = BA)) +
+  geom_point() +
+  geom_smooth(method = lm, se = FALSE) +
+  labs(x = "Year", y = "Batting Average")
+```
+
+### Exercise 7
+
+
+```{r }
+Teams %>%
+  select(yearID, teamID, SLG) %>%
+  arrange(desc(SLG)) %>%
+  head(5)
+
+Teams %>%
+  filter(yearID >= 1969) %>%
+  select(yearID, teamID, SLG) %>%
+  arrange(desc(SLG)) %>%
+  head(5)
+```
+
+### Exercise 8
+
+b) American league has lower slugging percentage from 1954 to around 1975. It is possible that American league have higher slugging rate now because it uses designated hitter whereas National league does not.
+
+```{r }
+Teams %>%
+  filter(yearID >= 1954) %>%
+  group_by(yearID, lgID) %>%
+  summarise(avg_slg = mean(SLG)) %>%
+  ggplot(aes(x = yearID, y = avg_slg*100, color = lgID))+
+    geom_point() +
+   geom_smooth(se = FALSE) +
+  labs(x = "Year", y = "Slugging %", color = "League ID")
+```
+
+### Exercise 9
+
+The flights usually get cancelled around winter and autumn so it is possible that because of the bad weather, the flights were cancelled.
+
+```{r }
+flights %>%
+  group_by(month) %>%
+  summarize(cancelled =  sum(is.na(dep_time)),
+            total = n(),
+            prop_cancelled = cancelled/total) %>%
+  arrange(desc(prop_cancelled))
+```
+
+### Exercise 11
+
+The higher the total inspections are, the more likely the median will be high.
+
+```{r }
+Violations %>%
+  select(boro, score, zipcode) %>%
+  filter(boro == "MANHATTAN") %>%
+  na.omit() %>%
+  group_by(zipcode) %>%
+  summarise(totalInspections = n(), median = median(score)) %>%
+  filter(totalInspections >= "50") %>%
+    arrange(desc(totalInspections))
+```
+
+### Parts (b) and (c) of Exercise 2 from Chapter 5
+
+
+```{r }
+#b
+Pitching %>%
+  group_by(playerID) %>%
+  summarise(totalW = sum(W), totalSO = sum(SO)) %>%
+  filter(totalW >= 300, totalSO >= 3000) %>%
+  left_join(Master, by = c("playerID" = "playerID")) %>%
+  select(nameFirst, nameLast, totalW, totalSO) %>%
+  arrange((nameFirst))
+```
+
+C) Pete Alonso has the lowest batting average in a single season.
+
+```{r }
+#c
+Batting %>%
+  group_by(playerID, yearID) %>%
+  summarise(totalHR = sum(HR), BA = sum(H)/sum(AB)) %>%
+  filter(totalHR >= 50) %>%
+  left_join(Master, by = c("playerID" = "playerID")) %>%
+  select(nameFirst, nameLast, BA, totalHR) %>%
+  arrange(BA)
+```
+

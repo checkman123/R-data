@@ -1,0 +1,106 @@
+---
+title: "Lab Name"
+author: "Author Name"
+date: "`r Sys.Date()`"
+output: openintro::lab_report
+---
+
+```{r load-packages, message=FALSE}
+library(tidyverse)
+library(openintro)
+library(mdsr)
+library(Hmisc)
+library(babynames)
+```
+
+
+### Exercise
+
+
+```{r }
+BabynamesDist <- make_babynames_dist()
+BabynamesDist
+
+samuel <- BabynamesDist %>%
+  filter(name == "Samuel" & sex == "M")
+name_plot <- ggplot(data = samuel, aes(x = year))
+
+name_plot <- name_plot +
+  geom_col(
+    aes(y = count_thousands * alive_prob), 
+    fill = "#b2d7e9", 
+    color = "white",
+    size = 0.1
+  )
+
+name_plot <- name_plot + 
+  geom_line(aes(y = count_thousands), size = 2)
+
+name_plot <- name_plot +
+  ylab("Number of People (thousands)") + 
+  xlab(NULL)
+
+wtd_quantile <- Hmisc::wtd.quantile
+median_yob <- samuel %>%
+  summarise(year = wtd_quantile(year, est_alive_today, probs = 0.5)) %>% 
+  pull(year)
+median_yob
+
+name_plot <- name_plot +
+  geom_col(
+    color = "white", fill = "#008fd5", 
+    aes(y = ifelse(year == median_yob, est_alive_today / 1000, 0))
+  )
+
+context <- tribble(
+  ~year, ~num_people, ~label,
+  1935, 40, "Number of Samuel\nborn each year",
+  1915, 13, "Number of Samuel\nborn each year
+  \nestimated to be alive\non 1/1/2014", 
+  2003, 40, "The median\nliving Samuel\nis 23 years old", 
+)
+
+name_plot +
+  ggtitle("Age Distribution of American Boys Named Samuel") + 
+  geom_text(
+    data = context, 
+    aes(y = num_people, label = label, color = label)
+  ) + 
+  geom_curve(
+    x = 1994, xend = 1990, y = 40, yend = 12, 
+    arrow = arrow(length = unit(0.3, "cm")), curvature = 0.5
+  ) + 
+  scale_color_manual(
+    guide = FALSE, 
+    values = c("black", "#b2d7e9", "darkgray")
+  ) + 
+  ylim(0, 42)
+
+```
+
+### The changes I made
+
+I tried using my name and there is no result, so I decided to use the name Samuel.
+
+I made a few changes in the code by replacing the search for Joseph into Samuel. And using that data in finding median year of birth.
+
+```
+samuel <- BabynamesDist %>%
+  filter(name == "Samuel" & sex == "M")
+name_plot <- ggplot(data = samuel, aes(x = year))
+
+median_yob <- samuel %>%
+  summarise(year = wtd_quantile(year, est_alive_today, probs = 0.5)) %>% 
+  pull(year)
+
+```
+I also made a change in the context by changing the name and fixed the arrow direction to the median of Samuel year of birth.
+
+```
+ geom_curve(
+    x = 1994, xend = 1990, y = 40, yend = 12, 
+    arrow = arrow(length = unit(0.3, "cm")), curvature = 0.5
+  )
+```
+
+
