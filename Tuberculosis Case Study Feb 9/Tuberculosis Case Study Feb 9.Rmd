@@ -1,0 +1,82 @@
+---
+title: "Tuberculosis Case Study"
+author: "Sanyapoom"
+date: "`r Sys.Date()`"
+output: openintro::lab_report
+---
+
+```{r load-packages, message=FALSE}
+library(tidyverse)
+library(openintro)
+data(who)
+data(population)
+```
+
+### Exercise 1
+
+The better alternative is to combine male and female together to get the overall population of the country. You can also take out the age range since it should be all across ages.
+
+```{r }
+who_tidy <- who %>%
+  pivot_longer(cols = new_sp_m014:newrel_f65, names_to = "groups", values_to = "cases") %>%
+  mutate(groups = str_replace(groups, "newrel", "new_rel")) %>%
+  separate(groups, c("new", "type", "sexage"), sep="_") %>%
+  select(-new, -iso2) %>%
+  separate(sexage, c("sex", "age"), sep = 1)
+```
+
+```{r }
+who_tidy %>%
+  arrange(desc(cases)) %>%
+  head(5)
+```
+
+### Exercise 2
+
+We can use filter() to select any year that we want, so that there won't be repeating country names within the list. From the list, we can see that China has the largest population in 2013, which correlate to the list from exercise 1.
+
+```{r }
+population %>%
+  filter(year == 2013) %>%
+  arrange(desc(population)) %>%
+  head(10)
+```
+
+### Exercise 3
+
+South Africa has the highest overall annual rate in 2013
+
+```{r options(scipen=999)}
+who_tidy
+
+#combine, join, then show
+country_year <- who_tidy %>%
+  group_by(country, year) %>%
+  summarise(total_cases = sum(cases,na.rm=TRUE))  
+
+
+country_year <- left_join(country_year, population)
+
+ country_year %>%
+  filter(year == 2013) %>%
+  group_by(country, year) %>%
+  summarize(TB_rate = sum(total_cases, na.rm=TRUE)/median(population)) %>%
+  arrange(desc(TB_rate))
+
+```
+
+### Exercise 4
+
+Swaziland has the highest average annual rates of new cases of tuberculosis across
+the years
+
+```{r }
+country_year %>%
+  group_by(country, year) %>%
+  summarize(TB_rate = mean(total_cases, na.rm=TRUE)/median(population)) %>%
+  arrange(desc(TB_rate))
+```
+
+### Exercise 5
+
+The countries that will have higher rate will mostly be a country with a large population, poorer economy, or in area with higher temperature. The countries that have lower rate will mostly be a country with small population, better economy, and in area with lower temperature.

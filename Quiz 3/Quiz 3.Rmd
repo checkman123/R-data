@@ -1,0 +1,90 @@
+---
+title: "Quiz 3"
+author: "Sanyapoom Sirijirakarn"
+date: "`r Sys.Date()`"
+output: openintro::lab_report
+---
+
+```{r load-packages, message=FALSE}
+library(tidyverse)
+library(openintro)
+library(readxl)
+library(plotly)
+library("rnaturalearth")
+library("rnaturalearthdata")
+WHO_meta <- read_csv("WHO_metadata.csv", col_names = FALSE)
+WHO_life_expectancy <- read_excel("WHOLifeExpectancy.xlsx", skip = 2)
+```
+
+### Exercise 1
+
+```{r}
+names(WHO_life_expectancy) <- c('country',
+  'HALEbirth_Both sexes_2016', 'HALEbirth_Both sexes_2015', 'HALEbirth_Both sexes_2010', 'HALEbirth_Both sexes_2005', 'HALEbirth_Both sexes_2000', 'HALEbirth_Male_2016','HALEbirth_Male_2015', 'HALEbirth_Male_2010', 'HALEbirth_Male_2005', 'HALEbirth_Male_2000',
+  'HALEbirth_Female_2016','HALEbirth_Female_2015', 'HALEbirth_Female_2010', 'HALEbirth_Female_2005', 'HALEbirth_Female_2000',
+  'HALE60_Both sexes_2016', 'HALE60_Both sexes_2015', 'HALE60_Both sexes_2010', 'HALE60_Both sexes_2005', 'HALE60_Both sexes_2000',
+  'HALE60_Male_2016', 'HALE60_Male_2015', 'HALE60_Male_2010', 'HALE60_Male_2005'
+  , 'HALE60_Male_2000',
+  'HALE60_Female_2016', 'HALE60_Female_2015', 'HALE60_Female_2010', 'HALE60_Female_2005', 'HALE60_Female_2000')
+
+```
+
+### Exercise 2
+
+```{r}
+WHO_life_expectancy <- WHO_life_expectancy %>%
+  pivot_longer(cols = c('HALEbirth_Both sexes_2016', 'HALEbirth_Both sexes_2015', 'HALEbirth_Both sexes_2010', 'HALEbirth_Both sexes_2005', 'HALEbirth_Both sexes_2000', 'HALEbirth_Male_2016','HALEbirth_Male_2015', 'HALEbirth_Male_2010', 'HALEbirth_Male_2005', 'HALEbirth_Male_2000',
+  'HALEbirth_Female_2016','HALEbirth_Female_2015', 'HALEbirth_Female_2010', 'HALEbirth_Female_2005', 'HALEbirth_Female_2000',
+  'HALE60_Both sexes_2016', 'HALE60_Both sexes_2015', 'HALE60_Both sexes_2010', 'HALE60_Both sexes_2005', 'HALE60_Both sexes_2000',
+  'HALE60_Male_2016', 'HALE60_Male_2015', 'HALE60_Male_2010', 'HALE60_Male_2005'
+  , 'HALE60_Male_2000',
+  'HALE60_Female_2016', 'HALE60_Female_2015', 'HALE60_Female_2010', 'HALE60_Female_2005', 'HALE60_Female_2000'), names_to = "type", values_to = "value") %>%
+  separate(type, c("name", "sex", "year"), sep = "_") %>%
+  pivot_wider(names_from = "name", values_from = "value") %>%
+  mutate(HALEbirth = as.numeric(HALEbirth),
+         HALE60 = as.numeric(HALE60)) %>%
+  arrange(desc(year), country)
+
+WHO_life_expectancy
+```
+
+### Exercise 3
+
+```{r}
+world_map <- ne_countries(scale = "medium", returnclass = "sf")
+
+WHO_life_expectancy_2016 <- WHO_life_expectancy %>% 
+  filter(year == "2016",
+         sex == "Both sexes") 
+
+combine <- left_join(WHO_meta , WHO_life_expectancy_2016, by = c("X3" = "country"))
+
+combine_world <- left_join(world_map, combine, by = c("iso_a3" = "X2"))
+```
+
+### Exercise 4
+
+```{r}
+my_map_theme <- function(){
+  theme(panel.background=element_blank(),
+        axis.text=element_blank(),
+        axis.ticks=element_blank(),
+        axis.title=element_blank())
+}
+p <- combine_world %>%
+  mutate(text = paste("<b>",admin,"</b>\nHealthy Life Expectancy:", HALEbirth)) %>%
+  ggplot()+
+  geom_sf(aes(fill=HALEbirth+runif(nrow(combine_world), min=0, max=0.0005), text=text), color="black") +
+  scale_fill_continuous("Healthy Life\nExpectancy\nat Birth (years)", low= "red", high="blueviolet",breaks=c(45,55,65,75)) +
+  labs(title = "Healthy Life Expectancy\nat Birth 2016") +
+  my_map_theme()
+
+p
+```
+### Exercise 5
+
+```{r}
+ggplotly(p, tooltip = "text") %>%
+  style(hoveron = "fills")
+```
+
