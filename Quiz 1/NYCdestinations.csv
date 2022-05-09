@@ -1,0 +1,79 @@
+dest,name,n_flights,average_distance,average_delay
+ALB,Albany Intl,439,143,14.4
+ATL,Hartsfield Jackson Atlanta Intl,17215,757,11.3
+AUS,Austin Bergstrom Intl,2439,1514,6
+BDL,Bradley Intl,443,116,7
+BGR,Bangor Intl,375,378,8
+BNA,Nashville Intl,6333,758,11.8
+BOS,General Edward Lawrence Logan Intl,15508,191,2.9
+BQN,NA,896,1579,8.2
+BTV,Burlington Intl,2589,265,9
+BUF,Buffalo Niagara Intl,4681,297,8.9
+BUR,Bob Hope,371,2465,8.2
+BWI,Baltimore Washington Intl,1781,179,10.7
+CAK,Akron Canton Regional Airport,864,397,19.7
+CHS,Charleston Afb Intl,2884,633,10.6
+CLE,Cleveland Hopkins Intl,4573,414,9.2
+CLT,Charlotte Douglas Intl,14064,538,7.4
+CMH,Port Columbus Intl,3524,477,10.6
+CVG,Cincinnati Northern Kentucky Intl,3941,575,15.4
+DAY,James M Cox Dayton Intl,1525,537,12.7
+DCA,Ronald Reagan Washington Natl,9705,211,9.1
+DEN,Denver Intl,7266,1615,8.6
+DFW,Dallas Fort Worth Intl,8738,1383,0.3
+DSM,Des Moines Intl,569,1021,19
+DTW,Detroit Metro Wayne Co,9384,498,5.4
+FLL,Fort Lauderdale Hollywood Intl,12055,1070,8.1
+GRR,Gerald R Ford Intl,765,606,18.2
+GSO,Piedmont Triad,1606,450,14.1
+GSP,Greenville-Spartanburg International,849,596,15.9
+HNL,Honolulu Intl,707,4973,-1.4
+HOU,William P Hobby,2115,1420,7.2
+IAD,Washington Dulles Intl,5700,225,13.9
+IAH,George Bush Intercontinental,7198,1407,4.2
+IND,Indianapolis Intl,2077,652,9.9
+JAX,Jacksonville Intl,2720,825,11.8
+LAS,Mc Carran Intl,5997,2241,0.3
+LAX,Los Angeles Intl,16174,2469,0.5
+LGB,Long Beach,668,2465,-0.1
+MCI,Kansas City Intl,2008,1098,14.5
+MCO,Orlando Intl,14082,943,5.5
+MDW,Chicago Midway Intl,4113,718,12.4
+MEM,Memphis Intl,1789,954,10.6
+MHT,Manchester Regional Airport,1009,207,14.8
+MIA,Miami Intl,11728,1092,0.3
+MKE,General Mitchell Intl,2802,733,14.2
+MSN,Dane Co Rgnl Truax Fld,572,804,20.2
+MSP,Minneapolis St Paul Intl,7185,1017,7.3
+MSY,Louis Armstrong New Orleans Intl,3799,1178,6.5
+OMA,Eppley Afld,849,1136,14.7
+ORD,Chicago Ohare Intl,17283,729,5.9
+ORF,Norfolk Intl,1536,289,10.9
+PBI,Palm Beach Intl,6554,1029,8.6
+PDX,Portland Intl,1354,2446,5.1
+PHL,Philadelphia Intl,1632,94,10.1
+PHX,Phoenix Sky Harbor Intl,4656,2141,2.1
+PIT,Pittsburgh Intl,2875,334,7.7
+PSE,NA,365,1617,7.9
+PVD,Theodore Francis Green State,376,160,16.2
+PWM,Portland Intl Jetport,2352,276,11.7
+RDU,Raleigh Durham Intl,8163,427,10.1
+RIC,Richmond Intl,2454,281,20.1
+ROC,Greater Rochester Intl,2416,259,11.6
+RSW,Southwest Florida Intl,3537,1073,3.2
+SAN,San Diego Intl,2737,2437,3.1
+SAT,San Antonio Intl,686,1578,6.9
+SAV,Savannah Hilton Head Intl,804,709,15.1
+SDF,Louisville International Airport,1157,646,12.7
+SEA,Seattle Tacoma Intl,3923,2413,-1.1
+SFO,San Francisco Intl,13331,2578,2.7
+SJU,NA,5819,1600,2.5
+SLC,Salt Lake City Intl,2467,1987,0.2
+SNA,John Wayne Arpt Orange Co,825,2434,-7.9
+SRQ,Sarasota Bradenton Intl,1211,1045,3.1
+STL,Lambert St Louis Intl,4339,879,11.1
+STT,NA,522,1627,-3.8
+SYR,Syracuse Hancock Intl,1761,206,8.9
+TPA,Tampa Intl,7466,1004,7.4
+TYS,Mc Ghee Tyson,631,639,24.1
+XNA,NW Arkansas Regional,1036,1143,7.5

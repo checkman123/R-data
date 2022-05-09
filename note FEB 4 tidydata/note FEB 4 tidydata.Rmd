@@ -1,0 +1,70 @@
+---
+title: "Data Wrangling Written Homework"
+author: "Sanyapoom Sirijirakarn"
+date: "`r Sys.Date()`"
+output: openintro::lab_report
+---
+
+```{r load-packages, message=FALSE}
+library(tidyverse)
+library(openintro)
+```
+
+### Exercise 1 Convert table2 to table1
+
+use pivot_wider.
+1) what column needs to be split into multiple variables?
+2) what other column to the original data will be used to determine how to split the data.
+
+```{r }
+table2 
+
+#convert to table1
+table2 %>%
+  pivot_wider(names_from = type, values_from = count)
+
+#Convert table1 to table2
+table1 %>%
+  pivot_longer(cols = c(cases, population), names_to = 'type', values_to = 'count')
+```
+
+### Exercise 2
+
+Use seperate() to seperate 2 value in a single cell.
+convert = TRUE -> convert the value in the cell to numeric type or chr
+
+```{r }
+table3
+
+
+table3 %>%
+  separate(col = rate, into = c("cases", "population"), sep = "/", convert = TRUE)
+```
+
+### Exercise 3
+
+
+```{r }
+table4a_long <- table4a %>%
+  pivot_longer(cols = c('1999', '2000'), names_to = 'year', values_to = 'cases')
+
+table4b_long <- table4b %>%
+  pivot_longer(cols = c('1999', '2000'), names_to = 'year', values_to = 'population')
+
+#Then do left join, match with country AND year
+#left_join(table4a_long, table4b_long) -> R can try to do it by itself
+left_join(table4a_long, table4b_long, by = c("country" = "country", "year" = "year")) %>%
+  mutate(year = as.integer(year))
+```
+
+### Exercise 4
+
+
+```{r }
+table1
+
+table5 %>%
+  unite(col = "year", century, year, sep ="") %>%
+  mutate(year = as.integer(year)) %>%
+  separate(col = rate, into = c("cases", "population"), sep = "/", convert = T)
+```

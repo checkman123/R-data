@@ -1,0 +1,69 @@
+---
+title: "Quiz 1"
+author: "Sanyapoom Sirijirakarn"
+date: "`r Sys.Date()`"
+output: openintro::lab_report
+---
+
+```{r load-packages, message=FALSE}
+library(tidyverse)
+library(openintro)
+NYCdestinations <- read_csv("D:/CODINGS/RStudio/Quiz 1/NYCdestinations.csv")
+world_income <- read_csv("D:/CODINGS/RStudio/Quiz 1/world_income.csv")
+```
+
+### Exercise 1a
+
+```{r }
+#1
+ggplot(data = NYCdestinations, mapping = aes(x = average_distance, y= average_delay)) +
+  geom_point(aes(size = n_flights), alpha = 0.3) +
+  geom_smooth( se = FALSE, size = 1.25) +
+    labs(x = "Distance (miles)", y = "Average Arrival Delay (Minutes)") 
+  
+
+  
+```
+
+### Exercise 1b
+
+The outlier destination is Honolulu Intl (HNL) with distance 4973 miles.
+
+```{r }
+NYCdestinations %>%
+  arrange(desc(average_distance)) %>%
+  head(5)
+```
+
+### Exercise 1c
+
+When the destination is closer to New York City airports, the higher delay will become. The further the destination is, the lower the delay. If there is a high number of flights, it will also reduced the delay time.
+
+
+### Exercise 2
+
+2a. Graph shown below.
+
+2b. The amount of income per capita in each region have increase over the year with a minor decrease in the latest year, which is probably due to covid. The Europe used to have the highest amount of income per capita but was overtaken by the Americas. Africa and Asia are lacking behind compared to Europe and Americas but Asia is gradually increasing its income per capita from year 2000s in the same rate as Europe and America during 1960s.
+
+The graph clearly shown that Africa region is lacking behind other regions of the world with the slowest increase income per capita also.
+
+```{r }
+ggplot(data = world_income, mapping = aes(x = income_percap, y= Year)) +
+  geom_point(aes(color = Region)) +
+    labs(x = "Income Per Capita (US dollars)", y = "Year") 
+```
+
+
+
+### Exercise 3
+
+3a. The geoms of the graph is points. The aesthetics used are cartesian xy position coordinates, and color. The scale of the graph is continuous, with percentage as its x axis.
+
+3b. The variables are the cost of burdened-household, overall cost burden rate, the city, and its state. The color is linked to overall cost burden rate which is the x axis. At its lowest rate, the color would be yellow and  as the rate increases, the color will becomes redder, showing that it becomes very difficult for household with high cost burden rate.
+
+3c. The graph shown that there are many household, up to 70% total, in the state with high population are spending at least 30% of its household income on rent. Vineland in NJ has about 10k cost-burdened household which is more than 70% of its overall household in that city. Most household in Vineland, NJ clearly do not have high enough income to comfortably rent the apartment they are living in as it is at least 30% of their total household income. Most overall cost burden household rate in each city are between 40% to 60%.
+
+3d. I honestly would prefer this graph to be a bar rather than points as it can show all the city names. The variable x and y of the bar would be overall cost burden rate and the city names respectively. The number of cost-burdened household can be put in the middle of the bar or right next to the end of the bar. The bar would be arrange from low percentage to the highest percentage overall cost burden rate. There would be a seperator for each bar when it passed through each percentage threshold on the x axis. The graph itself however will probably have higher height compare to the current graph.
+
+If I cannot changed the geoms of the graph. I think the graph is ok but it would be really great if it is interactable for user to move the cursor to each point on the graph and it would then show some kind of tooltip showing the city and its state since we do not know the lowest city overall cost burden rate in this graph. We only know those in the higher ones.

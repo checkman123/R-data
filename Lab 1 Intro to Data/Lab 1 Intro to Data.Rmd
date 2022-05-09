@@ -1,0 +1,67 @@
+---
+title: "Intro to Data"
+author: "Sanyapoom Sirijirakarn"
+date: "`r Sys.Date()`"
+output: openintro::lab_report
+---
+
+```{r load-packages, message=FALSE}
+library(tidyverse)
+library(openintro)
+data(nycflights)
+```
+
+### Exercise 5
+
+The first choice is to pick the lowest mean departure delay which is on month 10 with the mean of 5.88. The pro is that this month will have the highest chance to have the lowest departure delay. The cons is that you will be limited to only this month only. 
+
+The second choice is to pick the lowest median departure delay which are month 9 and 10 with the median of -3. The pro is that you will have more choices to pick from since the delay won't be too different from one another. The con is that you may not get the lowest departure delay time.
+
+```{r }
+nycflights %>%
+  group_by(month) %>%
+  summarise(mean_dd = mean(dep_delay), 
+            median_dd = median(dep_delay)) %>%
+  arrange((mean_dd))
+```
+
+### Exercise 6
+
+I would chose LGA airport to fly out of since it have the highest on time departure rate.
+
+```{r }
+nycflights <- nycflights %>%
+  mutate(dep_type = ifelse(dep_delay < 5, "on time", "delayed"))
+nycflights %>%
+  group_by(origin) %>%
+  summarise(ot_dep_rate = sum(dep_type == "on time") / n()) %>%
+  arrange(desc(ot_dep_rate))
+```
+
+### Exercise 7
+
+```{r }
+nycflights <- nycflights %>%
+  mutate(avg_speed = distance /(air_time/ 60))
+head(nycflights$avg_speed)
+glimpse(nycflights$avg_speed)
+```
+
+### Exercise 8
+
+Overall, as the distance increases, the average speed will also increases.
+
+```{r }
+ggplot(data = nycflights, aes(x = distance, y = avg_speed)) +
+  geom_point()
+```
+
+### Exercise 9
+
+I think the cut of point should be around the 5 minutes mark because most departure delay and arrival delay are within those 5 minutes. While it is possible for those passed 5 minutes mark to arrive to the destination on time, it is uncommon.
+
+```{r }
+nycflights_carriers <- nycflights %>%
+  filter(carrier == "AA" | carrier == "DL" | carrier == "UA")
+ggplot(data = nycflights_carriers, aes(x = dep_delay, y = arr_delay, color= carrier)) + geom_point()
+```

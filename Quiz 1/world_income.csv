@@ -1,0 +1,485 @@
+Region,Year,income_percap
+Africa,1900,983
+Africa,1901,994
+Africa,1902,1016
+Africa,1903,1055
+Africa,1904,1064
+Africa,1905,1081
+Africa,1906,1102
+Africa,1907,1109
+Africa,1908,1085
+Africa,1909,1101
+Africa,1910,1078
+Africa,1911,1090
+Africa,1912,1098
+Africa,1913,1106
+Africa,1914,1117
+Africa,1915,1134
+Africa,1916,1143
+Africa,1917,1158
+Africa,1918,1163
+Africa,1919,1197
+Africa,1920,1201
+Africa,1921,1214
+Africa,1922,1234
+Africa,1923,1250
+Africa,1924,1267
+Africa,1925,1287
+Africa,1926,1304
+Africa,1927,1316
+Africa,1928,1343
+Africa,1929,1352
+Africa,1930,1347
+Africa,1931,1351
+Africa,1932,1359
+Africa,1933,1392
+Africa,1934,1429
+Africa,1935,1469
+Africa,1936,1509
+Africa,1937,1544
+Africa,1938,1544
+Africa,1939,1574
+Africa,1940,1602
+Africa,1941,1627
+Africa,1942,1646
+Africa,1943,1663
+Africa,1944,1684
+Africa,1945,1702
+Africa,1946,1719
+Africa,1947,1728
+Africa,1948,1766
+Africa,1949,1784
+Africa,1950,1830
+Africa,1951,1885
+Africa,1952,1916
+Africa,1953,1948
+Africa,1954,2004
+Africa,1955,2037
+Africa,1956,2088
+Africa,1957,2114
+Africa,1958,2121
+Africa,1959,2190
+Africa,1960,2242
+Africa,1961,2239
+Africa,1962,2211
+Africa,1963,2321
+Africa,1964,2399
+Africa,1965,2463
+Africa,1966,2459
+Africa,1967,2450
+Africa,1968,2502
+Africa,1969,2613
+Africa,1970,2752
+Africa,1971,2793
+Africa,1972,2851
+Africa,1973,2891
+Africa,1974,2990
+Africa,1975,2966
+Africa,1976,3080
+Africa,1977,3133
+Africa,1978,3139
+Africa,1979,3194
+Africa,1980,3250
+Africa,1981,3208
+Africa,1982,3228
+Africa,1983,3175
+Africa,1984,3180
+Africa,1985,3196
+Africa,1986,3167
+Africa,1987,3127
+Africa,1988,3175
+Africa,1989,3205
+Africa,1990,3167
+Africa,1991,3127
+Africa,1992,3072
+Africa,1993,3028
+Africa,1994,3032
+Africa,1995,3069
+Africa,1996,3168
+Africa,1997,3220
+Africa,1998,3268
+Africa,1999,3312
+Africa,2000,3375
+Africa,2001,3459
+Africa,2002,3562
+Africa,2003,3668
+Africa,2004,3801
+Africa,2005,3931
+Africa,2006,4084
+Africa,2007,4250
+Africa,2008,4376
+Africa,2009,4416
+Africa,2010,4530
+Africa,2011,4521
+Africa,2012,4637
+Africa,2013,4700
+Africa,2014,4754
+Africa,2015,4783
+Africa,2016,4765
+Africa,2017,4807
+Africa,2018,4845
+Africa,2019,4872
+Africa,2020,4628
+Asia,1900,1236
+Asia,1901,1239
+Asia,1902,1261
+Asia,1903,1278
+Asia,1904,1275
+Asia,1905,1256
+Asia,1906,1278
+Asia,1907,1253
+Asia,1908,1256
+Asia,1909,1312
+Asia,1910,1318
+Asia,1911,1317
+Asia,1912,1339
+Asia,1913,1359
+Asia,1914,1378
+Asia,1915,1377
+Asia,1916,1410
+Asia,1917,1411
+Asia,1918,1353
+Asia,1919,1426
+Asia,1920,1379
+Asia,1921,1424
+Asia,1922,1449
+Asia,1923,1435
+Asia,1924,1469
+Asia,1925,1485
+Asia,1926,1503
+Asia,1927,1507
+Asia,1928,1528
+Asia,1929,1557
+Asia,1930,1538
+Asia,1931,1519
+Asia,1932,1539
+Asia,1933,1500
+Asia,1934,1511
+Asia,1935,1546
+Asia,1936,1608
+Asia,1937,1608
+Asia,1938,1598
+Asia,1939,1626
+Asia,1940,1644
+Asia,1941,1654
+Asia,1942,1636
+Asia,1943,1616
+Asia,1944,1573
+Asia,1945,1459
+Asia,1946,1362
+Asia,1947,1372
+Asia,1948,1400
+Asia,1949,1418
+Asia,1950,1435
+Asia,1951,1534
+Asia,1952,1616
+Asia,1953,1723
+Asia,1954,1715
+Asia,1955,1781
+Asia,1956,1865
+Asia,1957,1891
+Asia,1958,1921
+Asia,1959,1945
+Asia,1960,2005
+Asia,1961,1983
+Asia,1962,2050
+Asia,1963,2145
+Asia,1964,2288
+Asia,1965,2347
+Asia,1966,2408
+Asia,1967,2480
+Asia,1968,2573
+Asia,1969,2740
+Asia,1970,2910
+Asia,1971,2971
+Asia,1972,3044
+Asia,1973,3194
+Asia,1974,3179
+Asia,1975,3222
+Asia,1976,3286
+Asia,1977,3365
+Asia,1978,3461
+Asia,1979,3519
+Asia,1980,3546
+Asia,1981,3576
+Asia,1982,3620
+Asia,1983,3681
+Asia,1984,3771
+Asia,1985,3822
+Asia,1986,3843
+Asia,1987,3938
+Asia,1988,4052
+Asia,1989,4124
+Asia,1990,4212
+Asia,1991,4324
+Asia,1992,4481
+Asia,1993,4616
+Asia,1994,4791
+Asia,1995,5004
+Asia,1996,5230
+Asia,1997,5371
+Asia,1998,5366
+Asia,1999,5530
+Asia,2000,5768
+Asia,2001,5909
+Asia,2002,6113
+Asia,2003,6408
+Asia,2004,6781
+Asia,2005,7154
+Asia,2006,7595
+Asia,2007,8096
+Asia,2008,8386
+Asia,2009,8599
+Asia,2010,9144
+Asia,2011,9567
+Asia,2012,9956
+Asia,2013,10381
+Asia,2014,10815
+Asia,2015,11249
+Asia,2016,11745
+Asia,2017,12235
+Asia,2018,12698
+Asia,2019,13082
+Asia,2020,12748
+Europe,1900,4214
+Europe,1901,4209
+Europe,1902,4297
+Europe,1903,4276
+Europe,1904,4384
+Europe,1905,4350
+Europe,1906,4399
+Europe,1907,4443
+Europe,1908,4476
+Europe,1909,4560
+Europe,1910,4629
+Europe,1911,4686
+Europe,1912,4838
+Europe,1913,4955
+Europe,1914,4660
+Europe,1915,4660
+Europe,1916,4660
+Europe,1917,4438
+Europe,1918,4049
+Europe,1919,3859
+Europe,1920,3969
+Europe,1921,3969
+Europe,1922,4313
+Europe,1923,4339
+Europe,1924,4710
+Europe,1925,5048
+Europe,1926,5150
+Europe,1927,5357
+Europe,1928,5555
+Europe,1929,5687
+Europe,1930,5605
+Europe,1931,5351
+Europe,1932,5154
+Europe,1933,5272
+Europe,1934,5462
+Europe,1935,5695
+Europe,1936,5877
+Europe,1937,6187
+Europe,1938,6329
+Europe,1939,6600
+Europe,1940,6388
+Europe,1941,6345
+Europe,1942,6207
+Europe,1943,6121
+Europe,1944,5846
+Europe,1945,5280
+Europe,1946,5154
+Europe,1947,5483
+Europe,1948,5888
+Europe,1949,6283
+Europe,1950,6647
+Europe,1951,6868
+Europe,1952,7051
+Europe,1953,7302
+Europe,1954,7566
+Europe,1955,7981
+Europe,1956,8279
+Europe,1957,8513
+Europe,1958,8699
+Europe,1959,8890
+Europe,1960,9369
+Europe,1961,9843
+Europe,1962,10258
+Europe,1963,10649
+Europe,1964,11298
+Europe,1965,11771
+Europe,1966,12297
+Europe,1967,12786
+Europe,1968,13472
+Europe,1969,14094
+Europe,1970,14809
+Europe,1971,15344
+Europe,1972,15966
+Europe,1973,16949
+Europe,1974,17413
+Europe,1975,17603
+Europe,1976,18324
+Europe,1977,18884
+Europe,1978,19442
+Europe,1979,20000
+Europe,1980,20360
+Europe,1981,20492
+Europe,1982,20739
+Europe,1983,21197
+Europe,1984,21714
+Europe,1985,22189
+Europe,1986,22843
+Europe,1987,23398
+Europe,1988,24175
+Europe,1989,24802
+Europe,1990,24749
+Europe,1991,24408
+Europe,1992,23705
+Europe,1993,23204
+Europe,1994,23064
+Europe,1995,23446
+Europe,1996,23772
+Europe,1997,24414
+Europe,1998,24915
+Europe,1999,25593
+Europe,2000,26752
+Europe,2001,27368
+Europe,2002,27893
+Europe,2003,28504
+Europe,2004,29526
+Europe,2005,30399
+Europe,2006,31685
+Europe,2007,32919
+Europe,2008,33302
+Europe,2009,31599
+Europe,2010,32398
+Europe,2011,33273
+Europe,2012,33363
+Europe,2013,33597
+Europe,2014,33995
+Europe,2015,34452
+Europe,2016,34973
+Europe,2017,35910
+Europe,2018,36651
+Europe,2019,37158
+Europe,2020,35106
+The Americas,1900,5956
+The Americas,1901,6449
+The Americas,1902,6396
+The Americas,1903,6595
+The Americas,1904,6449
+The Americas,1905,6790
+The Americas,1906,7363
+The Americas,1907,7367
+The Americas,1908,6766
+The Americas,1909,7318
+The Americas,1910,7259
+The Americas,1911,7330
+The Americas,1912,7515
+The Americas,1913,7587
+The Americas,1914,6873
+The Americas,1915,6924
+The Americas,1916,7628
+The Americas,1917,7362
+The Americas,1918,7801
+The Americas,1919,7774
+The Americas,1920,7617
+The Americas,1921,7271
+The Americas,1922,7540
+The Americas,1923,8250
+The Americas,1924,8298
+The Americas,1925,8336
+The Americas,1926,8666
+The Americas,1927,8633
+The Americas,1928,8672
+The Americas,1929,8963
+The Americas,1930,8088
+The Americas,1931,7458
+The Americas,1932,6410
+The Americas,1933,6237
+The Americas,1934,6680
+The Americas,1935,7332
+The Americas,1936,7889
+The Americas,1937,8356
+The Americas,1938,7910
+The Americas,1939,8299
+The Americas,1940,8801
+The Americas,1941,9744
+The Americas,1942,10495
+The Americas,1943,11155
+The Americas,1944,11734
+The Americas,1945,11394
+The Americas,1946,10537
+The Americas,1947,10265
+The Americas,1948,10554
+The Americas,1949,10248
+The Americas,1950,10847
+The Americas,1951,11353
+The Americas,1952,11521
+The Americas,1953,11775
+The Americas,1954,11573
+The Americas,1955,12122
+The Americas,1956,12179
+The Americas,1957,12242
+The Americas,1958,12029
+The Americas,1959,12489
+The Americas,1960,12654
+The Americas,1961,12763
+The Americas,1962,13200
+The Americas,1963,13443
+The Americas,1964,13968
+The Americas,1965,14517
+The Americas,1966,15113
+The Americas,1967,15254
+The Americas,1968,15731
+The Americas,1969,16069
+The Americas,1970,16065
+The Americas,1971,16380
+The Americas,1972,16991
+The Americas,1973,17771
+The Americas,1974,17770
+The Americas,1975,17628
+The Americas,1976,18264
+The Americas,1977,18759
+The Americas,1978,19393
+The Americas,1979,19880
+The Americas,1980,19906
+The Americas,1981,19959
+The Americas,1982,19318
+The Americas,1983,19393
+The Americas,1984,20255
+The Americas,1985,20673
+The Americas,1986,21072
+The Americas,1987,21460
+The Americas,1988,21822
+The Americas,1989,22079
+The Americas,1990,22013
+The Americas,1991,21829
+The Americas,1992,22138
+The Americas,1993,22442
+The Americas,1994,23037
+The Americas,1995,23180
+The Americas,1996,23693
+The Americas,1997,24358
+The Americas,1998,24941
+The Americas,1999,25420
+The Americas,2000,26100
+The Americas,2001,26007
+The Americas,2002,26035
+The Americas,2003,26425
+The Americas,2004,27285
+The Americas,2005,28020
+The Americas,2006,28736
+The Americas,2007,29343
+The Americas,2008,29362
+The Americas,2009,28353
+The Americas,2010,29115
+The Americas,2011,29605
+The Americas,2012,30035
+The Americas,2013,30518
+The Americas,2014,30860
+The Americas,2015,31149
+The Americas,2016,31068
+The Americas,2017,31408
+The Americas,2018,31839
+The Americas,2019,32013
+The Americas,2020,30258
