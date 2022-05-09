@@ -1,0 +1,116 @@
+---
+title: "Quiz 2"
+author: "Sanyapoom Sirijirakarn"
+date: "`r Sys.Date()`"
+output: openintro::lab_report
+---
+
+```{r load-packages, message=FALSE}
+library(tidyverse)
+library(openintro)
+library(nycflights13)
+data(flights)
+gymnastics <- read_csv("gymnastics.csv")
+```
+
+### Exercise 1a
+
+```{r }
+gymnastics2 <- gymnastics %>%
+pivot_longer(cols = c(vault_2012_f, vault_2012_m, vault_2016_f, vault_2016_m,
+                      floor_2012_f, floor_2012_m, floor_2016_f, floor_2016_m),
+             names_to = "type", values_to = "score")
+
+gymnastics2 <- gymnastics2 %>%
+  mutate(score = as.numeric(format(round(score, 1), nsmall = 1)))
+
+gymnastics2 %>%
+  head(5)
+```
+
+### Exercise 1b
+
+
+
+```{r }
+gymnastics3 <- gymnastics2 %>%
+  separate(col = type, into = c('event','year','gender'), convert = T)
+
+gymnastics3 %>%
+  head(5)
+```
+
+### Exercise 1c
+
+```{r }
+gymnastics3 %>%
+  unite(event_year_gender, event, year, gender, sep = "_") %>%
+  pivot_wider(names_from = event_year_gender, values_from = score)
+
+```
+
+### Exercise 1d
+
+```{r }
+gymnastics3 %>%
+  filter(gender == "f")%>%
+  select(country, event, year, score) %>%
+  arrange(year, event, desc(score))
+```
+
+
+## Exercise 2ai
+
+The total number of flights during 2013 is 336776.
+
+```{r }
+data(airports)
+flights <- flights %>%
+  filter(year == '2013')
+
+flights %>%
+  nrow()
+
+NYCdestinations <- flights %>%
+  group_by(dest) %>%
+  summarize(cancelled =  sum(is.na(dep_time)),
+            total = n(),
+            prop_cancelled = cancelled/total,
+            distance = mean(distance)) %>%
+            arrange(desc(prop_cancelled))
+```
+
+
+### Exercise 2b
+
+```{r }
+NYCdestinations_365 <- NYCdestinations %>%
+  filter(total >= 365)
+
+NYCdestinations_merge <- left_join(NYCdestinations_365, airports, c("dest"="faa"))
+
+NYCdestinations_merge %>%
+  select(name, prop_cancelled) %>%
+  arrange(desc(prop_cancelled)) %>%
+  head(5)
+```
+
+### Exercise 2c
+
+```{r }
+NYCdestinations_365 <-  NYCdestinations_365 %>%
+  filter(distance < 4500)
+
+NYCdestinations_365 %>%
+  ggplot(aes(x = distance, y = prop_cancelled)) +
+  geom_point(aes(size = total), alpha = 1/3 ) +
+  geom_smooth(se = FALSE) +
+  labs(title="NYC proportion of cancelled flights versus mean distance") +
+  xlab("distance") +
+  ylab("proportion of cancelled flights")
+```
+
+### Exercise 2d
+
+From the graph above, we can see that the closer the destination from NYC, the higher the chance of flight cancellation will be. If the flight distance is high, it will less likely be cancelled.
+

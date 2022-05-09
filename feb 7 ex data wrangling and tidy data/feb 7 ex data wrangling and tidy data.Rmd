@@ -1,0 +1,103 @@
+---
+title: "Exercise: Data Wrangling and Tidy Data"
+author: "Author Name"
+date: "`r Sys.Date()`"
+output: openintro::lab_report
+---
+
+```{r load-packages, message=FALSE}
+library(tidyverse)
+library(openintro)
+trial <- read_csv("trial.csv")
+scores <- read_csv("scores.csv")
+exercise3 <- read_csv("exercise3.csv")
+```
+
+### Exercise 1
+
+```{r }
+#trial
+
+trial %>%
+  pivot_wider(names_from = Treatment, values_from = Result) %>%
+  mutate(Diff = Control - Treat)
+```
+
+### Exercise 2
+
+```{r }
+#scores
+
+scores %>%
+  pivot_longer(cols = c(Winter, Spring, Fall), names_to = "Quarter", values_to = "Total") %>%
+  pivot_wider(names_from = Test, values_from = Total) %>%
+  mutate(Total = Math + Writing)
+
+```
+
+### Exercise 3
+pivot long
+unite
+pivot wider
+
+```{r }
+exercise3
+
+exA <- exercise3 %>%
+  pivot_longer(cols = c(meanL, sdL, meanR, sdR), names_to = "type", values_to = "value") %>%
+  unite(sex.type, sex, type, sep = ".") %>%
+  pivot_wider(names_from = sex.type, values_from = value)
+  
+  #unite and pivot wider in 1 step
+  #pivot_wider(names_from = c(sex, type), values_from = value, names_sep = ".")
+
+exA 
+```
+
+```{r }
+exB <- exA %>%
+  pivot_longer(cols = c(F.meanL,F.sdL,F.meanR,F.sdR,M.meanL,M.sdL,M.meanR,M.sdR)) %>%
+  separate(col = name, into = c('sex','type'), sep='\\.') %>%
+  pivot_wider(names_from = type, values_from = value)
+
+exB
+```
+
+### Exercise 4
+
+a) Exercise 1 is preferable because it shows the control conditions value. It is easier to see the difference.
+```{r }
+ds1 <- data.frame(ID=c(1,2,3,1,2,3),
+                  Treatment=c("T","T","T","C","C","C"),
+                  Result=c(11,15,17,13,10,13))
+
+Treat <- filter(ds1, Treatment == "T")
+Control <- filter(ds1, Treatment == "C")
+all <- mutate(Treat, Diff = Treat$Result - Control$Result)
+all
+```
+b) It is possible that this method will wrongly matched the data to compute if the data isn't sorted correctly.
+
+```{r }
+
+ds2 <- data.frame(ID=c(2,1,3,1,2,3),
+                  Treatment=c("T","T","T","C","C","C"),
+                  Result=c(15,11,17,13,10,13))
+
+Treat <- filter(ds2, Treatment == "T")
+Control <- filter(ds2, Treatment == "C")
+all2 <- mutate(Treat, Diff = Treat$Result - Control$Result)
+all2
+```
+c) The program would crash since there aren't enough data for it to compute. This method requires all value to exist.
+
+```{r eval=F}
+ds3 <- data.frame(ID=c(1,2,3,1,2,3),
+                  Treatment=c("T","C"),
+                  Result=c(11,15,17,13,10,13))
+
+Treat <- filter(ds3, Treatment == "T")
+Control <- filter(ds3, Treatment == "C")
+all3 <- mutate(Treat, Diff = Treat$Result - Control$Result)
+all3
+```

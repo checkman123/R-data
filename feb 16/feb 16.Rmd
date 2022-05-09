@@ -1,0 +1,86 @@
+---
+title: "Lab Name"
+author: "Author Name"
+date: "`r Sys.Date()`"
+output: openintro::lab_report
+---
+
+```{r load-packages, message=FALSE}
+if (!require(plotly)) install.packages('plotly')
+library(plotly)
+if (!require(tidyverse)) install.packages('tidyverse')
+library(tidyverse)
+if (!require(readxl)) install.packages('readxl')
+library(readxl)
+```
+
+### Exercise 1
+
+Insert any text here.
+
+```{r code-chunk-label}
+burden <- read_excel("Apartment List Data -- Cost Burden 2019.xlsx", skip = 1)
+burden <- select(burden, -12)
+
+namelist <- c("N_Rent_Households",
+              "Overall_Burden_Rate",
+              "Moderate_Burden_Rate",
+              "Severe_Burden_Rate",
+              "N_Burden_Overall",
+              "N_Burden_Moderate",
+              "N_Burden_Severe",
+              "Median_Rent",
+              "Median_Renter_Income")
+
+names(burden) <- c("Location",
+                   "Type",
+                   paste(namelist, "18", sep="_"),
+                   paste(namelist, "17", sep="_"),
+                   paste(namelist, "08", sep="_"),
+                   paste(namelist, "change_17_18", sep="_"),
+                   paste(namelist, "change_08_18", sep="_"))
+
+myplot <- burden %>%
+  filter(Type == "Metro" & Overall_Burden_Rate_18 > 0) %>%
+  ggplot(aes(x=Overall_Burden_Rate_18, y=N_Burden_Overall_18, ids=Location,
+           text=paste("Burden Rate: ",Overall_Burden_Rate_18,"%"))) +
+    geom_point(aes(color=Overall_Burden_Rate_18)) +
+    scale_y_log10(breaks = c(1000, 2000, 5000, 10000, 20000, 50000, 
+                             100000, 200000, 500000, 1000000),
+                labels = c("1000", "2K", "5K", "10K", "20K", "50K", 
+                           "100K", "200K", "500K", "1M"),
+                minor_breaks=NULL) +
+    labs(title="THE U.S. CITIES WITH\nTHE BIGGEST COST BURDENS",
+         subtitle=
+           "Apartment List analyzed which cities have the worst income-to-rent ratios.",
+         caption = "Source: Apartment List and Yahoo Finance") +
+    xlab("OVERALL COST BURDEN RATE") +
+    ylab("# OF COST BURDENED HOUSEHOLDS") +
+    scale_color_gradient(low="yellow", high="red") +
+    guides(color=FALSE) +
+    theme(plot.background = element_rect(fill = "#1F0E42")) +
+    theme(panel.background = element_rect(fill = "#1F0E42")) +
+    theme(title = element_text(color = "white")) +
+    theme(axis.text = element_text(color = "white")) +
+    theme(plot.title = element_text(hjust=0.5, size = 25)) + 
+    theme(plot.subtitle = element_text(hjust=0.5)) +
+    scale_x_continuous(labels = scales::percent) +
+    theme(panel.grid = element_line(color = "gray", size = 0.1))
+myplot
+```
+
+### Making the Graph Interactive
+
+```{r}
+ggplotly(myplot, tooltip = c("ids", "text"))
+myplot <- myplot + theme(plot.title = element_text(hjust=0.5, size = 16))
+ggplotly(myplot, tooltip = c("ids", "text")) %>%
+  layout(title = list(text = paste("THE U.S. CITIES WITH THE BIGGEST COST BURDENS",
+                                    "<br>", "<sup>",
+                                    "Apartment List analyzed which cities have the worst income-to-rent ratios.",
+                                    "</sup>")))
+```
+
+```{r}
+
+```
