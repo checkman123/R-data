@@ -1,0 +1,119 @@
+---
+title: "January 14 In-Class"
+author: "Sanyapoom Sirijirakarn"
+date: "`r Sys.Date()`"
+output: openintro::lab_report
+---
+
+```{r load-packages, message=FALSE}
+library(tidyverse)
+library(openintro)
+```
+
+### Exercise 1
+
+
+```{r }
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = hwy, y = cyl))
+```
+
+### Exercise 2
+
+There is no correlation between drv and class because the variables are discrete. 
+
+```{r }
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = drv, y = class))
+```
+
+
+
+### Exercise 3
+
+The color = "blue" needs to be outside ot the aes()
+
+```{r }
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy), color = "blue")
+```
+
+### Exercise 4
+
+
+
+```{r }
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy), size = 3) +
+  geom_smooth(mapping = aes(x = displ, y = hwy), se = FALSE)
+
+
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy, group = drv)) +
+  geom_point(size = 3) +
+  geom_smooth(se = FALSE)
+
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy,  color = drv)) +
+  geom_point(size = 3) +
+  geom_smooth(se = FALSE)
+
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) +
+  geom_point(mapping = aes( color = drv), size = 3 ) +
+  geom_smooth(se = FALSE)
+
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) +
+  geom_point(mapping = aes(color = drv), size = 3 ) +
+  geom_smooth(mapping = aes(linetype = drv), se = FALSE)
+
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) +
+  geom_point(size = 6, color = "white") +
+  geom_point(mapping = aes(color = drv), size = 2)
+
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) +
+  geom_point(size = 6, shape = 21, color = "white")
+
+
+```
+
+### Exercise 5
+
+
+
+```{r }
+ggplot(data = USStates, mapping = aes(x = College, y = HouseholdIncome, color = Region)) +
+  geom_point(mapping = aes(size = Population)) +
+  labs(x = "College %", y = "Household Income (Thousand $)",color = "Region", size = "Population (Mil)", )  +
+  scale_color_discrete(name = "Region", labels = c("South", "West", "Northeast", "Midwest"))
+```
+
+### Exercise 5
+
+
+
+```{r }
+
+```
+
+### Exercise 5
+
+
+
+```{r }
+
+```
+
+### Exercise 5
+
+
+
+```{r }
+
+```
+
+### Exercise 5
+
+
+
+```{r }
+
+```
+

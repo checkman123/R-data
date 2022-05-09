@@ -1,0 +1,96 @@
+---
+title: "Jan 19"
+author: "Sanyapoom Sirijirakarn"
+date: "`r Sys.Date()`"
+output: openintro::lab_report
+---
+
+```{r load-packages, message=FALSE}
+library(tidyverse)
+library(openintro)
+data(mpg)
+library(mosaic)
+data(Galton)
+```
+
+### Exercise 1
+
+Overplotting of points. You can improve it by adding jitter to see the overall trend of the graph better.
+
+```{r }
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) + 
+  geom_point()
+
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) + 
+  geom_point(position = "jitter")
+```
+
+### Exercise 2
+
+Width and height control the amount of jittering.
+
+```{r }
+
+```
+
+### Exercise 4
+
+coord_fixed() is important because it will configured the graph to a 1:1 ratio for x and y which will make it easier for us to analyze the data. geom_abline() only adds a reference line into the graph.
+
+As city mpg grows, so does hwy mpg grows.
+
+```{r }
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) +
+  geom_point() + 
+  geom_abline() +
+  coord_fixed()
+
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) +
+  geom_point() + 
+  geom_abline()
+```
+
+### Exercise 5
+
+
+
+```{r }
+ggplot(data = Galton, aes(x = height, y = father)) +
+  geom_point() +
+  facet_grid(. ~ sex) +
+  geom_smooth(method='lm')
+
+ggplot(data = Galton, aes(x = height, y = father)) +
+  geom_point() +
+  facet_grid(sex ~ .) +
+  geom_smooth(method='lm')
+```
+
+### Exercise 6
+
+
+
+```{r }
+library(mosaicData)
+data(Marriage)
+
+ggplot(data = Marriage, aes(x = ceremonydate   , y = officialTitle , color = race, group = person, size = age)) +
+  geom_point(alpha = 0.6)  +
+  facet_grid(. ~ person)
+
+
+
+```
+
+```{r }
+library(mosaicData)
+data(Marriage)
+
+ggplot(data = Marriage, aes(x = prevcount    , y =   appdate   , color = prevconc, size = age)) +
+  geom_point(alpha = 0.6)  +
+  facet_grid(. ~ person)
+
+
+
+```
+
